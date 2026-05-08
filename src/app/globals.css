@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --bg: 255 255 255;
+  --fg: 17 24 39;
+  --muted: 107 114 128;
+  --brand: 236 72 153; /* pink-500-ish */
+  --surface: 249 250 251;
+  --ring: 236 72 153;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+}
+
+::selection {
+  background: rgba(var(--brand), 0.2);
+}
+
