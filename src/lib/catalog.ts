@@ -1,3 +1,4 @@
+
 import { bunnyUrl } from "@/lib/bunny";
 import { bdt } from "@/lib/money";
 import type { Category, Product } from "@/lib/types";
@@ -232,7 +233,9 @@ export const products: Product[] = [
 ];
 
 export function getCategoryBySlug(slug: string) {
+  
   return categories.find((c) => c.slug === slug) || null;
+  
 }
 
 export function getProductBySlug(slug: string) {
