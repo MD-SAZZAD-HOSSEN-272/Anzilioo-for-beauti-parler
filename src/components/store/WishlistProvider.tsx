@@ -1,69 +1,88 @@
 "use client";
 
-import * as React from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
-type WishlistState = {
+type WishlistContextType = {
   ids: string[];
-};
-
-type WishlistContextValue = WishlistState & {
-  toggle: (productId: string) => void;
-  has: (productId: string) => boolean;
+  toggle: (id: string) => void;
+  has: (id: string) => boolean;
   clear: () => void;
 };
 
-const WishlistContext = React.createContext<WishlistContextValue | null>(null);
-const STORAGE_KEY = "anzilioo.wishlist.v1";
+const WishlistContext = createContext<WishlistContextType | null>(null);
 
-function readInitial(): WishlistState {
-  if (typeof window === "undefined") return { ids: [] };
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { ids: [] };
-    const parsed = JSON.parse(raw) as WishlistState;
-    if (!parsed?.ids || !Array.isArray(parsed.ids)) return { ids: [] };
-    return { ids: parsed.ids.filter((x) => typeof x === "string" && x.length) };
-  } catch {
-    return { ids: [] };
-  }
-}
+const STORAGE_KEY = "wishlist";
 
-export function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = React.useState<WishlistState>(() => ({ ids: [] }));
-  const [hydrated, setHydrated] = React.useState(false);
+export function WishlistProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [ids, setIds] = useState<string[]>([]);
 
-  React.useEffect(() => {
-    setState(readInitial());
-    setHydrated(true);
+  // Load wishlist from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEY);
+
+      if (stored) {
+        setIds(JSON.parse(stored));
+      }
+    }
   }, []);
 
-  React.useEffect(() => {
-    if (!hydrated) return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [state, hydrated]);
+  // Save wishlist to localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    }
+  }, [ids]);
 
-  const toggle = React.useCallback((productId: string) => {
-    setState((prev) => {
-      const exists = prev.ids.includes(productId);
-      return { ids: exists ? prev.ids.filter((id) => id !== productId) : [...prev.ids, productId] };
-    });
-  }, []);
+  // Add / Remove product
+  const toggle = (id: string) => {
+    if (ids.includes(id)) {
+      setIds(ids.filter((item) => item !== id));
+    } else {
+      setIds([...ids, id]);
+    }
+  };
 
-  const has = React.useCallback((productId: string) => state.ids.includes(productId), [state.ids]);
+  // Check product exists
+  const has = (id: string) => {
+    return ids.includes(id);
+  };
 
-  const clear = React.useCallback(() => setState({ ids: [] }), []);
+  // Clear wishlist
+  const clear = () => {
+    setIds([]);
+  };
 
-  const value: WishlistContextValue = React.useMemo(
-    () => ({ ...state, toggle, has, clear }),
-    [state, toggle, has, clear]
+  return (
+    <WishlistContext.Provider
+      value={{
+        ids,
+        toggle,
+        has,
+        clear,
+      }}
+    >
+      {children}
+    </WishlistContext.Provider>
   );
-
-  return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>;
 }
 
 export function useWishlist() {
-  const ctx = React.useContext(WishlistContext);
-  if (!ctx) throw new Error("useWishlist must be used within WishlistProvider");
-  return ctx;
-}
+  const context = useContext(WishlistContext);
 
+  if (!context) {
+    throw new Error("useWishlist must be used inside WishlistProvider");
+  }
+
+  return context;
+}
