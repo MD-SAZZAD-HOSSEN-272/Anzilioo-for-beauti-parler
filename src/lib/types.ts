@@ -31,3 +31,24 @@ export type CartItem = {
   qty: number;
 };
 
+export type OrderItem = {
+  productId: string;
+  qty: number;
+};
+
+export type OrderPayload = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  city: string;
+
+  createAccount: boolean;
+  password?: string;
+
+  pay: "sslcommerz";
+
+  items: OrderItem[];
+  subtotal: number;
+};
+
