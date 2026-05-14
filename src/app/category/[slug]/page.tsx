@@ -1,21 +1,22 @@
-"use client";
-
 import { notFound } from "next/navigation";
 import { getCategoryBySlug, productsByCategory } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
+import { getProductsByCategory } from "@/api/porducts";
 
-export default function CategoryPage({
-  params,
+export default async function CategoryPage({
+  params
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const slug = params.slug;
-
+  const { slug } = await params;
   const category = getCategoryBySlug(slug);
-
   if (!category) notFound();
 
-  const list = productsByCategory(slug);
+  const {data : list} = await getProductsByCategory(slug)
+
+  console.log(list, 'category')
+
+  // const list = productsByCategory(slug);
 
   return (
     <div className="space-y-6">
@@ -23,17 +24,15 @@ export default function CategoryPage({
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
           {category.name}
         </h1>
-
-        <p className="text-sm text-zinc-600">
-          {list.length} products
-        </p>
+        <p className="text-sm text-zinc-600">{list.length} products</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {list.map((p) => (
+        {list.map((p : any) => (
           <ProductCard key={p.id} product={p} />
         ))}
       </div>
     </div>
   );
 }
+

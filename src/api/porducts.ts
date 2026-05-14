@@ -37,6 +37,8 @@ export const searchProducts = async (query: string) => {
 
 export const getProductsByCategory = async (categorySlug: string) => {
 
+    console.log(categorySlug)
+
     const res = await fetch(`http://localhost:5000/api/products?category=${categorySlug}`, {
         method: "GET",
         headers: {
