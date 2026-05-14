@@ -8,7 +8,8 @@ export function formatMoney(m: MoneyBDT) {
   return new Intl.NumberFormat("bn-BD", {
     style: "currency",
     currency: m.currency,
-    maximumFractionDigits: 0
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(m.amount);
 }
 

@@ -1,4 +1,5 @@
 
+import { getProducts } from "@/api/porducts";
 import { bunnyUrl } from "@/lib/bunny";
 import { bdt } from "@/lib/money";
 import type { Category, Product } from "@/lib/types";
@@ -232,6 +233,9 @@ export const products: Product[] = [
   }
 ];
 
+// export const Products = await getProducts();
+
+
 export function getCategoryBySlug(slug: string) {
   
   return categories.find((c) => c.slug === slug) || null;
@@ -250,12 +254,12 @@ export function productsByCategory(categorySlug: string) {
   return products.filter((p) => p.categorySlug === categorySlug);
 }
 
-export function searchProducts(query: string) {
-  const q = query.trim().toLowerCase();
-  if (!q) return [];
-  return products.filter((p) => {
-    const hay = `${p.name} ${p.brand ?? ""} ${p.tags.join(" ")}`.toLowerCase();
-    return hay.includes(q);
-  });
-}
+// export function searchProducts(query: string) {
+//   const q = query.trim().toLowerCase();
+//   if (!q) return [];
+//   return products.filter((p) => {
+//     const hay = `${p.name} ${p.brand ?? ""} ${p.tags.join(" ")}`.toLowerCase();
+//     return hay.includes(q);
+//   });
+// }
 

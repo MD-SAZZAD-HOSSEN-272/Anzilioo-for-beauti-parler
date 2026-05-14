@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import type { Product } from "@/lib/types";
-import { formatMoney } from "@/lib/money";
+import { bdt, formatMoney } from "@/lib/money";
 import { cn } from "@/lib/cn";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -15,6 +15,8 @@ export function ProductCard({ product }: { product: Product }) {
             100
         )
       : null;
+
+     
 
   return (
     <Link
@@ -64,11 +66,11 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="mt-3 flex items-end gap-2">
           <div className="text-base font-bold text-zinc-900">
-            {formatMoney(product.price)}
+            {formatMoney(bdt(Number(product.price)))}
           </div>
           {product.compareAtPrice ? (
             <div className={cn("text-sm text-zinc-400 line-through")}>
-              {formatMoney(product.compareAtPrice)}
+              {formatMoney(bdt(Number(product.compareAtPrice)))}
             </div>
           ) : null}
         </div>

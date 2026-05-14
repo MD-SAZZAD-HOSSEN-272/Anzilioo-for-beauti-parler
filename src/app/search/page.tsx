@@ -1,33 +1,59 @@
-import { ProductCard } from "@/components/product/ProductCard";
-import { products, searchProducts } from "@/lib/catalog";
+"use client";
 
-export default async function SearchPage({
-  searchParams
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
-  const { q } = await searchParams;
-  const query = (q ?? "").trim();
-  const results = query ? searchProducts(query) : products;
+import React from "react";
+import { useSearchParams } from "next/navigation";
+
+import { getProducts, searchProducts } from "@/api/porducts";
+import { ProductCard } from "@/components/product/ProductCard";
+
+export default function SearchPage() {
+  const searchParams = useSearchParams();
+
+  const query = (searchParams.get("q") ?? "").trim();
+
+  const [products, setProducts] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+
+      try {
+        let res;
+
+        if (!query) {
+          res = await getProducts();
+        } else {
+          res = await searchProducts(query);
+        }
+
+        setProducts(res.data); // adjust if backend uses res.data.data
+      } catch (error) {
+        console.error("Search error:", error);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [query]);
+
+  if (loading) return <h1>Loading...</h1>;
+
+  const results = products;
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Search</h1>
-        <p className="text-sm text-zinc-600">
-          {query ? (
-            <>
-              Showing results for <span className="font-semibold">“{query}”</span>
-            </>
-          ) : (
-            "All products"
-          )}
-        </p>
-      </div>
+      <h1 className="text-2xl font-semibold">Search</h1>
+
+      <p className="text-sm text-zinc-600">
+        {query ? `Showing results for "${query}"` : "All products"}
+      </p>
 
       {results.length ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {results.map((p) => (
+          {results.map((p: any) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
@@ -39,4 +65,3 @@ export default async function SearchPage({
     </div>
   );
 }
-
