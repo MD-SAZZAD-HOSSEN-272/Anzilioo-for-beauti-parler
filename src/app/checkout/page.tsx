@@ -9,6 +9,7 @@ import { formatMoney } from "@/lib/money";
 import { OrderPayload } from "@/lib/types";
 import { orderSchema } from "@/lib/Zod/order.schama";
 import  axiosSecure  from "@/lib/axios/axiosSecure";
+import Swal from "sweetalert2";
 
 export default function CheckoutPage() {
   const api = axiosSecure()
@@ -105,15 +106,18 @@ export default function CheckoutPage() {
     try {
       console.log("VALID ORDER:", result);
 
-      // =========================
-      // API CALL HERE LATER
-      // =========================
-
       const res = await api.post('/api/orders', result.data)
+      if (res.data.success){
+        Swal.fire({
+  position: "center",
+  icon: "success",
+  title: "Your order has been placed",
+  showConfirmButton: false,
+  timer: 1500
+});
+      }
 
-      console.log(res)
-
-      alert("Order validation successful!");
+    
 
     } catch (error) {
       console.error(error);
