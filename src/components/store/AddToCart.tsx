@@ -4,7 +4,7 @@ import * as React from "react";
 import { useCart } from "@/components/store/CartProvider";
 import { Button } from "@/components/ui/Button";
 
-export function AddToCart({ productId, disabled }: { productId: string; disabled?: boolean }) {
+export function AddToCart({ productId, disabled, product }: { productId: string; disabled?: boolean; product : {name: string, price: number, image: string} }) {
   const { add } = useCart();
   const [adding, setAdding] = React.useState(false);
 
@@ -14,7 +14,7 @@ export function AddToCart({ productId, disabled }: { productId: string; disabled
       onClick={() => {
         setAdding(true);
         try {
-          add(productId, 1);
+          add(productId, 1, product);
         } finally {
           window.setTimeout(() => setAdding(false), 250);
         }

@@ -8,9 +8,12 @@ import { Input } from "@/components/ui/Input";
 import { formatMoney } from "@/lib/money";
 import { OrderPayload } from "@/lib/types";
 import { orderSchema } from "@/lib/Zod/order.schama";
+import  axiosSecure  from "@/lib/axios/axiosSecure";
 
 export default function CheckoutPage() {
+  const api = axiosSecure()
   const { subtotal, count, items } = useCart();
+  
 
   // FORM STATES
   const [name, setName] = React.useState("");
@@ -75,7 +78,6 @@ export default function CheckoutPage() {
       subtotal,
     };
 
-    console.log("ORDER DATA:", orderData);
 
     // VALIDATE WITH ZOD
     const result = orderSchema.safeParse(orderData);
@@ -107,14 +109,9 @@ export default function CheckoutPage() {
       // API CALL HERE LATER
       // =========================
 
-      // Example:
-      // const response = await fetch("/api/orders", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(result.data),
-      // });
+      const res = await api.post('/api/orders', result.data)
+
+      console.log(res)
 
       alert("Order validation successful!");
 

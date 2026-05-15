@@ -113,7 +113,7 @@ export default async function ProductPage({
 
           <div className="rounded-3xl bg-[rgb(var(--surface))] p-4 ring-1 ring-zinc-200">
             <div className="grid gap-3">
-              <AddToCart productId={product.id} disabled={!product.inStock} />
+              <AddToCart productId={product.id} product={{name: product.name, price: product.price, image: product.images[0]}} disabled={!product.inStock} />
               <ToggleWishlist productId={product.id} />
               <div className="text-xs text-zinc-500">
                 Checkout supports Bangladesh-only SSLCommerz (demo flow).
