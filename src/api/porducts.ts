@@ -1,50 +1,29 @@
+import axiosSecure from "@/lib/axios/axiosSecure";
+
+const api = axiosSecure()
 
 export const getProducts = async () => {
 
-    const res = await fetch("http://localhost:5000/api/products", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return res.json();
+    const res = await api.get("/api/products");
+    return res.data();
 }
 
 export const getProductById = async (id: string) => {
 
-    const res = await fetch(`http://localhost:5000/api/products/${id}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return res.json();
+    const res = await api.get(`/api/products/${id}`);
+    return res.data();
 }
 
 export const searchProducts = async (query: string) => {
 
-    console.log(query)
-
-    const res = await fetch(`http://localhost:5000/api/products?q=${query}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
+    const res = await api.get(`/api/products?q=${query}`);
     
-    return res.json();
+    return res.data();
 }
 
 export const getProductsByCategory = async (categorySlug: string) => {
 
-    console.log(categorySlug)
-
-    const res = await fetch(`http://localhost:5000/api/products?category=${categorySlug}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return res.json();
+    const res = await api.get(`api/products?category=${categorySlug}`);
+    return res.data;
 }
 
