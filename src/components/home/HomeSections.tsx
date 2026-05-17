@@ -1,15 +1,36 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
-import { categories, products } from "@/lib/catalog";
+// import { categories, products } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
+import React from "react";
+import { getCategories, getCategoryBySlug } from "@/api/category";
+import { getProducts } from "@/api/porducts";
 
 export function HomeSections() {
-  const bestSellers = [...products]
+
+  const [categories, setCategory] = React.useState<any[]>([])
+  const [product, setProduct] = React.useState<any[]>([])
+
+  const newArrivals = product.sort((a, b) => b.createdAt - a.createdAt).slice(0, 8)
+
+  const bestSellers = [...product]
     .filter((p) => p.inStock)
     .sort((a, b) => b.reviewCount - a.reviewCount)
     .slice(0, 8);
 
-  const newArrivals = [...products].slice(0, 6);
+  React.useEffect(() => {
+    const getCategory = async() => {
+      const categoryRes = await getCategories()
+      const productRes = await getProducts()
+      setCategory(categoryRes.data || [])
+      setProduct(productRes.data || [])
+    }
+    getCategory()
+  }, [])
+
+  console.log(newArrivals)
 
   return (
     <div className="space-y-12">
@@ -27,7 +48,7 @@ export function HomeSections() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {categories.map((c) => (
+          {categories?.map((c : any) => (
             <Link
               key={c.slug}
               href={`/category/${c.slug}`}

@@ -10,10 +10,12 @@ import { OrderPayload } from "@/lib/types";
 import { orderSchema } from "@/lib/Zod/order.schama";
 import  axiosSecure  from "@/lib/axios/axiosSecure";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const api = axiosSecure()
-  const { subtotal, count, items } = useCart();
+  const { subtotal, count, items, clear } = useCart();
+  const route = useRouter()
   
 
   // FORM STATES
@@ -108,6 +110,9 @@ export default function CheckoutPage() {
 
       const res = await api.post('/api/orders', result.data)
       if (res.data.success){
+        clear()
+        route.push('/checkout/success')
+
         Swal.fire({
   position: "center",
   icon: "success",

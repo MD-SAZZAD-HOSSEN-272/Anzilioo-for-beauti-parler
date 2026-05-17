@@ -6,14 +6,25 @@ import * as React from "react";
 import { Heart, Search, ShoppingBag, User } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/cn";
-import { categories } from "@/lib/catalog";
 import { useCart } from "@/components/store/CartProvider";
+import { getCategories } from "@/api/category";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const params = useSearchParams();
   const { count } = useCart();
+
+  const [categories, setCategories] = React.useState<any[]>([])
+
+  React.useEffect(() => {
+    const getCategory = async() => {
+      const res = await getCategories()
+      setCategories(res.data)
+    }
+
+    getCategory()
+  }, [])
 
   const [q, setQ] = React.useState(() => params.get("q") ?? "");
 
@@ -79,7 +90,7 @@ export function SiteHeader() {
 
       <div className="border-t border-zinc-100">
         <div className="mx-auto flex w-full max-w-7xl items-center gap-2 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
-          {categories.map((c) => (
+          {categories?.map((c) => (
             <Link
               key={c.slug}
               href={`/category/${c.slug}`}
