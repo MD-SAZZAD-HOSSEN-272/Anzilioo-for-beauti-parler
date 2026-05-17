@@ -8,6 +8,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { bdt, formatMoney } from "@/lib/money";
 import { Input } from "@/components/ui/Input";
 import { getProductById } from "@/api/porducts";
+import CosmeticLoader from '@/components/loader/CosmeticLoader';
 
 export default function CartPage() {
   const { items, remove, setQty, clear, subtotal } = useCart();
@@ -16,6 +17,7 @@ export default function CartPage() {
 
   React.useEffect(() => {
     async function loadProducts() {
+      setLoading(true)
       try {
         const data = await Promise.all(
           items.map(async (i) => {
@@ -42,25 +44,37 @@ export default function CartPage() {
   }, [items]);
 
   if (loading) {
-    return <div>Loading...</div>;
-  }
+  return (
+    <div className="py-36">
+      <CosmeticLoader />
+    </div>
+  );
+}
 
+  return (
+  <div className="relative">
 
-
-  if (!lines.length) {
-    return (
+    {/* Empty Cart */}
+    {!loading && !lines.length && (
       <div className="mx-auto max-w-xl space-y-4 rounded-[2rem] bg-white p-8 text-center ring-1 ring-zinc-200">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Your cart</h1>
-        <p className="text-sm text-zinc-600">Your cart is empty. Start shopping!</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
+          Your cart
+        </h1>
+
+        <p className="text-sm text-zinc-600">
+          Your cart is empty. Start shopping!
+        </p>
+
         <div className="flex justify-center">
           <ButtonLink href="/search">Browse products</ButtonLink>
         </div>
       </div>
-    );
-  }
+    )}
 
-  return (
-    <div className="grid gap-8 lg:grid-cols-3">
+    {/* Cart Content */}
+    {!loading && lines.length > 0 && (
+      <div>
+        <div className="grid gap-8 lg:grid-cols-3">
       <div className="space-y-4 lg:col-span-2">
         <div className="flex items-end justify-between">
           <div>
@@ -156,6 +170,9 @@ export default function CartPage() {
         </div>
       </aside>
     </div>
-  );
+      </div>
+    )}
+  </div>
+);
 }
 

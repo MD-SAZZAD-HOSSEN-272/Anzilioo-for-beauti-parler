@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import { getProducts, searchProducts } from "@/api/porducts";
 import { ProductCard } from "@/components/product/ProductCard";
+import CosmeticLoader from "@/components/loader/CosmeticLoader";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -27,7 +28,7 @@ export default function SearchPage() {
           res = await searchProducts(query);
         }
 
-        setProducts(res.data); // adjust if backend uses res.data.data
+        setProducts(res.data || []); // adjust if backend uses res.data.data
       } catch (error) {
         console.error("Search error:", error);
         setProducts([]);
@@ -39,7 +40,13 @@ export default function SearchPage() {
     fetchProducts();
   }, [query]);
 
-  if (loading) return <h1>Loading...</h1>;
+ if (loading) {
+  return (
+    <div className="py-24">
+      <CosmeticLoader />
+    </div>
+  );
+}
 
   const results = products;
 
