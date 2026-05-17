@@ -43,6 +43,8 @@ export default function CartPage() {
     loadProducts();
   }, [items]);
 
+  console.log(items)
+
   if (loading) {
   return (
     <div className="py-36">
