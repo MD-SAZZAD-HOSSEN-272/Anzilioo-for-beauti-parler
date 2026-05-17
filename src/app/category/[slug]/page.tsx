@@ -14,7 +14,7 @@ export default async function CategoryPage({
 
   const {data : list} = await getProductsByCategory(slug)
 
-  console.log(list, 'category')
+  // console.log(list, 'category')
 
   // const list = productsByCategory(slug);
 
