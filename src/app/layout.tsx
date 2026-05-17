@@ -30,10 +30,11 @@ export default function RootLayout({
             <div className="min-h-dvh bg-[rgb(var(--bg))]">
               <Suspense fallback={<div className="h-[108px] border-b border-zinc-200 bg-white" />}>
                 <SiteHeader />
-              </Suspense>
+              
               <main className="mx-auto w-full max-w-7xl px-4 pb-14 pt-6 sm:px-6 lg:px-8">
                 {children}
               </main>
+              </Suspense>
               <SiteFooter />
             </div>
           </WishlistProvider>
