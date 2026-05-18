@@ -232,7 +232,7 @@ export function CartProvider({
     async (productId: string) => {
       const user = getUser();
 
-      console.log(productId)
+      // console.log(productId)
 
       /**
        * DB USER

@@ -28,7 +28,7 @@ export default function HomeCategorySlider() {
         const categoryRes = await getCategories()
         setCategory(categoryRes.data || [])
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     }
 

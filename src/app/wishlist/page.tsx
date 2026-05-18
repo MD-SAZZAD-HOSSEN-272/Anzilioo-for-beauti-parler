@@ -21,7 +21,7 @@ React.useEffect(() => {
 
       setWishProduct(products.filter(Boolean));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -30,7 +30,7 @@ React.useEffect(() => {
   }
 }, [ids]);
 
-console.log(wishProduct)
+// console.log(wishProduct)
 
   if (!wishProduct.length) {
     return (

@@ -31,7 +31,7 @@ export function HomeSections() {
     getCategory()
   }, [])
 
-  console.log(newArrivals)
+  // console.log(newArrivals)
 
   return (
     <div className="space-y-12">

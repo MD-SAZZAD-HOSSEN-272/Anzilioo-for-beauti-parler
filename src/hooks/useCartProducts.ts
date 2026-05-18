@@ -39,7 +39,7 @@ export function useCartProducts(items: any[]) {
                 product,
               }
             } catch (error) {
-              console.log('Product fetch failed:', i.productId)
+              // console.log('Product fetch failed:', i.productId)
 
               return {
                 item: i,
@@ -53,7 +53,7 @@ export function useCartProducts(items: any[]) {
           setLines(data.filter((x) => x.product))
         }
       } catch (error) {
-        console.log('Cart load failed:', error)
+        // console.log('Cart load failed:', error)
 
         if (!ignore) {
           setLines([])

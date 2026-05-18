@@ -9,7 +9,7 @@ export function AddToCart({ productId, disabled, product, quantity }: { productI
   const { add } = useCart();
   const [adding, setAdding] = React.useState(false);
 
-  console.log(quantity)
+  // console.log(quantity)
 
   const handleAddToCart = () => {
     setAdding(true);

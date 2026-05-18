@@ -7,7 +7,7 @@ import axios from "axios";
  */
 const axiosSecure = () => {
 
-    console.log('call axios', process.env.NEXT_PUBLIC_API_URL)
+    // console.log('call axios', process.env.NEXT_PUBLIC_API_URL)
   const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL
   });
@@ -18,9 +18,9 @@ const axiosSecure = () => {
    */
   api.interceptors.request.use(
     (config) => {
-      console.log(
-        `🚀 Request: ${config.method?.toUpperCase()} ${config.url}`
-      );
+      // console.log(
+      //   `🚀 Request: ${config.method?.toUpperCase()} ${config.url}`
+      // );
 
       // You can add guestId later here if needed
       if (typeof window !== "undefined") {

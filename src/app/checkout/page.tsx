@@ -106,7 +106,7 @@ export default function CheckoutPage() {
     setErrors({});
 
     try {
-      console.log("VALID ORDER:", result);
+      // console.log("VALID ORDER:", result);
 
       const res = await api.post('/api/orders', result.data)
       if (res.data.success){

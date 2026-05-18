@@ -17,6 +17,8 @@ export default function CartPage() {
 
   const { lines, loading } = useCartProducts(items)
 
+  // console.log(lines, 'form cart')
+
   if (loading) {
     return (
       <div className="py-36">
