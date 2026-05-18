@@ -7,6 +7,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import React from "react";
 import { getCategories, getCategoryBySlug } from "@/api/category";
 import { getProducts } from "@/api/porducts";
+import HomeCategorySlider from "./HomeCategorySlider";
 
 export function HomeSections() {
 
@@ -47,7 +48,9 @@ export function HomeSections() {
           </Link>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <HomeCategorySlider />
+
+        {/* <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {categories?.map((c : any) => (
             <Link
               key={c.slug}
@@ -55,9 +58,9 @@ export function HomeSections() {
               className="group relative overflow-hidden rounded-3xl bg-white ring-1 ring-zinc-200 transition hover:-translate-y-0.5 hover:shadow-lg"
             >
               <div className="relative aspect-[5/4] bg-zinc-50">
-                {c.imageUrl ? (
+                {c.image ? (
                   <Image
-                    src={c.imageUrl}
+                    src={c.image}
                     alt={c.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 20vw"
@@ -71,7 +74,10 @@ export function HomeSections() {
               </div>
             </Link>
           ))}
-        </div>
+        </div> */}
+
+
+
       </section>
 
       <section className="space-y-4">

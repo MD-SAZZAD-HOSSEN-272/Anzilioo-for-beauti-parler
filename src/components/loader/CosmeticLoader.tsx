@@ -9,7 +9,7 @@
 
 const CosmeticLoader = () => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-[calc(100vh-650px)]">
       <div className="relative flex flex-col items-center">
          <div className="absolute w-64 h-64 rounded-full bg-pink-200/50 blur-3xl animate-pulse" />
         {/* Spinner */}

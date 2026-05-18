@@ -23,3 +23,23 @@ body {
   background: rgba(var(--brand), 0.2);
 }
 
+
+
+/* home slider css */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #ec4899 !important;
+  transform: scale(0.7);
+}
+
+@media (min-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    transform: scale(1);
+  }
+}
+
+.swiper-pagination-bullet-active {
+  background: #ec4899 !important;
+}
+

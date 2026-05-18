@@ -5,14 +5,16 @@ import { useCart } from "@/components/store/CartProvider";
 import { Button } from "@/components/ui/Button";
 import Swal from "sweetalert2";
 
-export function AddToCart({ productId, disabled, product }: { productId: string; disabled?: boolean; product : {name: string, price: number, image: string} }) {
+export function AddToCart({ productId, disabled, product, quantity }: { productId: string; quantity: number; disabled?: boolean; product : {name: string, price: number, image: string} }) {
   const { add } = useCart();
   const [adding, setAdding] = React.useState(false);
+
+  console.log(quantity)
 
   const handleAddToCart = () => {
     setAdding(true);
         try {
-          add(productId, 1, product);
+          add(productId, quantity, product);
 
           Swal.fire({
   position: "center",

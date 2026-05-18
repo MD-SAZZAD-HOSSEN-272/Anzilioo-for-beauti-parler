@@ -8,6 +8,9 @@ import { AddToCart } from "@/components/store/AddToCart";
 import { ToggleWishlist } from "@/components/store/ToggleWishlist";
 import { ProductCard } from "@/components/product/ProductCard";
 import { getProductById, getProductsByCategory } from "@/api/porducts";
+import ProductImageGallery from "@/components/product/ProductImageGallery";
+import ProductActions from "@/components/product/ProductActions";
+import { RelatedProducts } from "@/components/product/RelatedProducts";
 
 export default async function ProductPage({
   params
@@ -45,33 +48,10 @@ export default async function ProductPage({
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="space-y-4">
           {
-            primaryImage ? <div className="relative aspect-square overflow-hidden rounded-[2rem] bg-zinc-50 ring-1 ring-zinc-200">
-            <Image
-              src={primaryImage}
-              alt={product.name}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-              priority
-            />
-          </div> : <div className="flex h-full items-center justify-center text-sm text-zinc-400">
+            primaryImage ? <ProductImageGallery images={product?.images} name={product?.name} />: <div className="flex h-full items-center justify-center text-sm text-zinc-400">
                 No image available
               </div>
           }
-         {
-          product.images.length > 0 ? (
-             <div className="grid grid-cols-3 gap-3">
-            {product.images?.slice(0, 3).map((src : string) => (
-              <div
-                key={src}
-                className="relative aspect-square overflow-hidden rounded-2xl bg-zinc-50 ring-1 ring-zinc-200"
-              >
-                <Image src={src} alt="" fill sizes="20vw" className="object-cover" />
-              </div>
-            ))}
-          </div>
-          ) : (null)
-         }
         </div>
 
         <div className="space-y-5">
@@ -112,14 +92,16 @@ export default async function ProductPage({
           <p className="text-sm text-zinc-600">{product.shortDescription || null}</p>
 
           <div className="rounded-3xl bg-[rgb(var(--surface))] p-4 ring-1 ring-zinc-200">
-            <div className="grid gap-3">
-              <AddToCart productId={product.id} product={{name: product.name, price: product.price, image: product.images[0]}} disabled={!product.inStock} />
-              <ToggleWishlist productId={product.id} />
-              <div className="text-xs text-zinc-500">
-                Checkout supports Bangladesh-only SSLCommerz (demo flow).
-              </div>
-            </div>
-          </div>
+  <ProductActions
+    product={{
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images?.[0],
+      inStock: product.inStock,
+    }}
+  />
+</div>
 
           <div className="space-y-2">
             <h2 className="text-base font-semibold text-zinc-900">Details</h2>
@@ -138,16 +120,7 @@ export default async function ProductPage({
       </div>
 
       {related.length > 0 ? (
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold tracking-tight text-zinc-900">
-            Related products
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((p : any) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </section>
+        <RelatedProducts related={related} />
       ) : null}
     </div>
   );
