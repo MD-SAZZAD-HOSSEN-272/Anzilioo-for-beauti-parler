@@ -20,6 +20,7 @@ export default function ProductImageGallery({
           src={selected}
           alt={name}
           fill
+          sizes="96px"
           className="object-cover"
           priority
         />
@@ -38,6 +39,7 @@ export default function ProductImageGallery({
                 src={src}
                 alt=""
                 fill
+                sizes="96px"
                 className="object-cover"
               />
             </div>
