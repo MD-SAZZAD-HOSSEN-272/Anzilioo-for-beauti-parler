@@ -14,6 +14,7 @@ export function SiteHeader() {
   const router = useRouter();
   const params = useSearchParams();
   const { count } = useCart();
+  const user = ''
 
   const [categories, setCategories] = React.useState<any[]>([])
 
@@ -65,7 +66,7 @@ export function SiteHeader() {
         </form>
 
         <nav className="ml-auto flex items-center gap-1 sm:ml-0">
-          <HeaderIconLink href="/account" label="Account" icon={<User className="size-5" />} />
+          <HeaderIconLink href={user ? '/account' : '/auth/login'} label={user ? 'Account' : 'Login'} icon={<User className="size-5" />} />
           <HeaderIconLink
             href="/wishlist"
             label="Wishlist"
