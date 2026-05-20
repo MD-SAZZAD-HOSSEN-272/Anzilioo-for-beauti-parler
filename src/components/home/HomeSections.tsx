@@ -1,20 +1,19 @@
 'use client'
 
-import Image from "next/image";
 import Link from "next/link";
-// import { categories, products } from "@/lib/catalog";
 import { ProductCard } from "@/components/product/ProductCard";
 import React from "react";
-import { getCategories, getCategoryBySlug } from "@/api/category";
 import { getProducts } from "@/api/porducts";
 import HomeCategorySlider from "./HomeCategorySlider";
+import ProductSkeleton from "../loader/ProductKeleteon";
 
 export function HomeSections() {
 
-  const [categories, setCategory] = React.useState<any[]>([])
+  const [loader, setloader] = React.useState<Boolean>(true)
   const [product, setProduct] = React.useState<any[]>([])
 
-  const newArrivals = product.sort((a, b) => b.createdAt - a.createdAt).slice(0, 8)
+  const newArrivals = product.sort((a, b) => b.createdAt - a.createdAt).slice(0, 6)
+
 
   const bestSellers = [...product]
     .filter((p) => p.inStock)
@@ -22,16 +21,15 @@ export function HomeSections() {
     .slice(0, 8);
 
   React.useEffect(() => {
+    setloader(true)
     const getCategory = async() => {
-      const categoryRes = await getCategories()
       const productRes = await getProducts()
-      setCategory(categoryRes.data || [])
       setProduct(productRes.data || [])
+      setloader(false)
     }
     getCategory()
   }, [])
 
-  // console.log(newArrivals)
 
   return (
     <div className="space-y-12">
@@ -87,11 +85,16 @@ export function HomeSections() {
           </h2>
           <p className="text-sm text-zinc-600">Top picks loved by customers.</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          loader ? <ProductSkeleton num = {8} grid={4} /> : <>
+           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {bestSellers.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
+          </>
+        }
+       
       </section>
 
       <section className="space-y-4">

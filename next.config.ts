@@ -12,7 +12,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "storage.bunnycdn.com" },
       { protocol: "https", hostname: "www.simpleskincare.in" },
       { protocol: "https", hostname: "i.pinimg.com" },
-      { protocol: "https", hostname: "example.com" }
+      { protocol: "https", hostname: "example.com" },
+      {protocol: 'https', hostname: 'images.unsplash.com'}
     ]
   }
 };
