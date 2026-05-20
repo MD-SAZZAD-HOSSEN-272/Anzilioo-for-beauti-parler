@@ -104,11 +104,14 @@ export function HomeSections() {
           </h2>
           <p className="text-sm text-zinc-600">Freshly added to the store.</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          loader ? <ProductSkeleton num = {6} grid={3} /> : <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {newArrivals.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
+        }
+        
       </section>
     </div>
   );
